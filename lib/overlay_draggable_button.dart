@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'dio_log_sds.dart';
 
 OverlayEntry? itemEntry;
@@ -32,7 +31,8 @@ class DraggableButtonWidget extends StatefulWidget {
   final double btnSize;
   final Color? btnColor;
 
-  DraggableButtonWidget({
+  const DraggableButtonWidget({
+    super.key,
     this.title = 'Show log',
     this.onTap,
     this.btnSize = 66,
@@ -59,14 +59,15 @@ class _DraggableButtonWidgetState extends State<DraggableButtonWidget> {
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
 
-    var tap = () {
+    tap() {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) =>
-              HttpLogListWidget(hint: "All http requests from dio"),
+              const HttpLogListWidget(hint: "All http requests from dio"),
         ),
       );
-    };
+    }
+
     Widget w;
     Color primaryColor =
         widget.btnColor ?? Colors.redAccent; // Theme.of(context).primaryColor;
@@ -82,7 +83,7 @@ class _DraggableButtonWidgetState extends State<DraggableButtonWidget> {
           child: Text(
             widget.title,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               color: Colors.white,
               fontWeight: FontWeight.normal,

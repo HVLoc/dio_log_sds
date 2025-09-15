@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class LogWidget extends StatefulWidget {
   final NetOptions netOptions;
 
-  LogWidget(this.netOptions);
+  const LogWidget(this.netOptions, {super.key});
 
   @override
   _LogWidgetState createState() => _LogWidgetState();
@@ -37,7 +37,7 @@ class _LogWidgetState extends State<LogWidget>
       appBar: AppBar(
         title: Text(
           widget.netOptions.reqOptions!.url!,
-          style: TextStyle(fontSize: 11, color: Colors.black),
+          style: const TextStyle(fontSize: 11, color: Colors.black),
         ),
         backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 1.0,
@@ -60,7 +60,7 @@ class _LogWidgetState extends State<LogWidget>
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: _bottomTap,
-        items: [
+        items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.cloud_upload_outlined), label: 'Request'),
           BottomNavigationBarItem(
@@ -82,6 +82,6 @@ class _LogWidgetState extends State<LogWidget>
 
   void _bottomTap(int value) {
     _pageController!.animateToPage(value,
-        duration: Duration(milliseconds: 300), curve: Curves.ease);
+        duration: const Duration(milliseconds: 300), curve: Curves.ease);
   }
 }

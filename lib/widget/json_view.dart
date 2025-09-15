@@ -15,7 +15,8 @@ class JsonView extends StatefulWidget {
   final bool? isShowAll;
 
   final double fontSize;
-  JsonView({
+  const JsonView({
+    super.key,
     this.json,
     this.isShowAll = false,
     this.fontSize = 14,
@@ -26,7 +27,7 @@ class JsonView extends StatefulWidget {
 }
 
 class _JsonViewState extends State<JsonView> {
-  Map<String, bool?> showMap = Map();
+  Map<String, bool?> showMap = {};
 
   ///当前节点编号
   int currentIndex = 0;
@@ -50,7 +51,7 @@ class _JsonViewState extends State<JsonView> {
       List? list = widget.json as List?;
       w = _buildArray(list, '');
     } else {
-      var je = JsonEncoder.withIndent('  ');
+      var je = const JsonEncoder.withIndent('  ');
       var json = je.convert(widget.json);
       return _getDefText(json);
     }
@@ -67,9 +68,9 @@ class _JsonViewState extends State<JsonView> {
     ///object节点
     Widget keyW;
     if (_isShow(currentIndex)) {
-      keyW = _getDefText('${key == null ? '{' : '$key:{'}');
+      keyW = _getDefText(key == null ? '{' : '$key:{');
     } else {
-      keyW = _getDefText('${key == null ? '{...}' : '$key:{...}'}');
+      keyW = _getDefText(key == null ? '{...}' : '$key:{...}');
     }
     listW.add(_wrapFlex(currentIndex, keyW));
 
@@ -95,7 +96,7 @@ class _JsonViewState extends State<JsonView> {
       ///添加缩进
       listW.add(
         Padding(
-          padding: EdgeInsets.only(left: 16),
+          padding: const EdgeInsets.only(left: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: listObj,
@@ -138,7 +139,7 @@ class _JsonViewState extends State<JsonView> {
 
     if (_isShow(currentIndex)) {
       List<Widget> listArr = [];
-      listJ!.forEach((val) {
+      for (var val in listJ!) {
         var type = getType(val);
         Widget w;
         if (type == JsonType.object) {
@@ -147,13 +148,13 @@ class _JsonViewState extends State<JsonView> {
           w = _buildKeyValue(val);
         }
         listArr.add(w);
-      });
+      }
       listArr.add(_getDefText(']'));
 
       ///添加缩进
       listW.add(
         Padding(
-          padding: EdgeInsets.only(left: 16),
+          padding: const EdgeInsets.only(left: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: listArr,
@@ -195,8 +196,8 @@ class _JsonViewState extends State<JsonView> {
 
   ///构建子节点的展示
   Widget _buildKeyValue(v, {k}) {
-    Widget w = _getDefText(
-        '${k ?? ''}:${v is String ? '"$v"' : v?.toString() ?? null},');
+    Widget w =
+        _getDefText('${k ?? ''}:${v is String ? '"$v"' : v?.toString()},');
     if (k != null) {
       w = GestureDetector(
         behavior: HitTestBehavior.translucent,

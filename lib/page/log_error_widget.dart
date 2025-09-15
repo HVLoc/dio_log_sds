@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class LogErrorWidget extends StatefulWidget {
   final NetOptions netOptions;
 
-  LogErrorWidget(this.netOptions);
+  const LogErrorWidget(this.netOptions, {super.key});
 
   @override
   _LogErrorWidgetState createState() => _LogErrorWidgetState();
@@ -16,7 +16,7 @@ class _LogErrorWidgetState extends State<LogErrorWidget>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Container(
+    return SizedBox(
       height: double.infinity,
       child: Center(
         child: Text(widget.netOptions.errOptions?.errorMsg ?? 'no error'),

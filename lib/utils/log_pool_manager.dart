@@ -26,9 +26,7 @@ class LogPoolManager {
   }
 
   static LogPoolManager getInstance() {
-    if (_instance == null) {
-      _instance = LogPoolManager._singleton();
-    }
+    _instance ??= LogPoolManager._singleton();
     return _instance!;
   }
 

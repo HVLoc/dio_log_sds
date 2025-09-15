@@ -8,7 +8,7 @@ import 'dio_log_sds.dart';
 import 'page/log_widget.dart';
 
 class HttpLogListWidget extends StatefulWidget {
-  const HttpLogListWidget({this.hint, Key? key}) : super(key: key);
+  const HttpLogListWidget({this.hint, super.key});
 
   final String? hint;
 
@@ -46,7 +46,7 @@ class _HttpLogListWidgetState extends State<HttpLogListWidget> {
           InkWell(
             onTap: _updateOverlayState,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Align(
                 child: Text(
                   debugBtnIsShow() ? 'Close overlay' : 'Open overlay',
@@ -59,7 +59,7 @@ class _HttpLogListWidgetState extends State<HttpLogListWidget> {
           InkWell(
             onTap: _clearLog,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Align(
                 child: Text(
                   'Clear',
@@ -71,8 +71,8 @@ class _HttpLogListWidgetState extends State<HttpLogListWidget> {
           ),
         ],
       ),
-      body: logMap!.length < 1
-          ? Center(child: Text('No request log'))
+      body: logMap!.isEmpty
+          ? const Center(child: Text('No request log'))
           : Column(
               children: [
                 if (widget.hint != null && widget.hint!.isNotEmpty)
@@ -113,7 +113,7 @@ class _HttpLogListWidgetState extends State<HttpLogListWidget> {
 }
 
 class _LogItem extends StatelessWidget {
-  const _LogItem({required this.item, Key? key}) : super(key: key);
+  const _LogItem({required this.item});
 
   final NetOptions item;
 
@@ -129,7 +129,7 @@ class _LogItem extends StatelessWidget {
         : Theme.of(context).textTheme.bodyLarge!.color;
 
     return Card(
-      margin: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
       elevation: 6,
       child: InkWell(
         onTap: () {
@@ -138,7 +138,7 @@ class _LogItem extends StatelessWidget {
         },
         child: Container(
           width: double.infinity,
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

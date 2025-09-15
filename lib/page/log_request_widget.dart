@@ -10,7 +10,7 @@ import '../dio_log_sds.dart';
 class LogRequestWidget extends StatefulWidget {
   final NetOptions netOptions;
 
-  LogRequestWidget(this.netOptions);
+  const LogRequestWidget(this.netOptions, {super.key});
 
   @override
   _LogRequestWidgetState createState() => _LogRequestWidgetState();
@@ -20,10 +20,6 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
     with AutomaticKeepAliveClientMixin {
   bool reqFail = false;
   double fontSize = 14;
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -49,8 +45,8 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
           children: <Widget>[
             Row(
               children: <Widget>[
-                SizedBox(width: 10),
-                Text('Slider Fontsize'),
+                const SizedBox(width: 10),
+                const Text('Slider Fontsize'),
                 Expanded(
                   child: Slider(
                     value: fontSize,
@@ -64,7 +60,7 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
                 ),
               ],
             ),
-            Text(
+            const Text(
               'Tip: long press a key to copy the value to the clipboard',
               style: TextStyle(fontSize: 10, color: Colors.red),
             ),
@@ -79,10 +75,10 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
                           'duration:${resOpt?.duration ?? 0}ms\n${dataFormat(reqOpt.data)}'
                           '\nparams:${toJson(reqOpt.params)}\nheader:${reqOpt.headers}');
                     },
-                    child: Text('copy all'),
+                    child: const Text('copy all'),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Expanded(
@@ -90,27 +86,27 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
                     onPressed: () {
                       copyClipboard(context, '${reqOpt.url}');
                     },
-                    child: Text(
+                    child: const Text(
                       'copy url',
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      copyClipboard(context, '${convertcURL(reqOpt)}');
+                      copyClipboard(context, convertcURL(reqOpt));
                     },
-                    child: Text(
+                    child: const Text(
                       'copy cURL',
                     ),
                   ),
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(
@@ -120,12 +116,12 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
                     onPressed: () {
                       copyClipboard(context, '${reqOpt.headers}');
                     },
-                    child: Text(
-                      'copy header',
+                    child: const Text(
+                      'copy Headers',
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Expanded(
@@ -133,10 +129,10 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
                     onPressed: () {
                       copyClipboard(context, '${toJson(reqOpt.data)}');
                     },
-                    child: Text('copy body'),
+                    child: const Text('copy Body'),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Expanded(
@@ -144,19 +140,19 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
                     onPressed: () {
                       copyClipboard(context, '${toJson(reqOpt.params)}');
                     },
-                    child: Text('copy params'),
+                    child: const Text('copy params'),
                   ),
                 ),
               ],
             ),
             _buildKeyValue('url', reqOpt.url),
-            _buildKeyValue('method', reqOpt.method),
-            _buildKeyValue('requestTime', requestTime),
-            _buildKeyValue('responseTime', responseTime),
-            _buildKeyValue('duration', '${resOpt?.duration ?? 0}ms'),
+            _buildKeyValue('Method', reqOpt.method),
+            _buildKeyValue('RequestTime', requestTime),
+            _buildKeyValue('ResponseTime', responseTime),
+            _buildKeyValue('Duration', '${resOpt?.duration ?? 0}ms'),
             _buildParam(reqOpt.data),
-            _buildJsonView('params', reqOpt.params),
-            _buildJsonView('header', reqOpt.headers),
+            _buildJsonView('Params', reqOpt.params),
+            _buildJsonView('Headers', reqOpt.headers),
           ],
         ),
       ),
@@ -179,7 +175,7 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
 
   ///构建子节点的展示
   Widget _buildKeyValue(k, v) {
-    Widget w = _getDefText('$k:${v is String ? '$v' : v?.toString() ?? null}');
+    Widget w = _getDefText('$k:${v is String ? v : v?.toString()}');
     if (k != null) {
       w = GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -187,7 +183,7 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
           copyClipboard(context, v);
         },
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 2),
+          padding: const EdgeInsets.symmetric(vertical: 2),
           child: w,
         ),
       );
@@ -211,7 +207,7 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
     if (data is Map || data is List) {
       return _buildJsonView('body', data);
     } else if (data is FormData) {
-      formDataMap = Map()
+      formDataMap = {}
         ..addEntries(data.fields)
         ..addEntries(data.files);
       return _getDefText('formData:${map2Json(formDataMap)}');
@@ -223,7 +219,7 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
         return Text('body: $data');
       }
     } else {
-      return SizedBox();
+      return const SizedBox();
     }
   }
 
@@ -243,13 +239,12 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
       String header = '';
       if (reqOptions.headers != null) {
         reqOptions.headers!.forEach((key, value) {
-          if (value != '') header += "--header '${key}:${value}' \\ \n ";
+          if (value != '') header += "--header '$key:$value' \\ \n ";
         });
       }
 
-      String data = reqOptions.data != null
-          ? "--data '${toJson(reqOptions.data)}'"
-          : "";
+      String data =
+          reqOptions.data != null ? "--data-raw '${toJson(reqOptions.data)}'" : "";
       String result = '$url  \n $header \n $data';
       print(result);
       return result;

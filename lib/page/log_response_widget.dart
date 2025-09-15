@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class LogResponseWidget extends StatefulWidget {
   final NetOptions netOptions;
 
-  LogResponseWidget(this.netOptions);
+  const LogResponseWidget(this.netOptions, {super.key});
 
   @override
   _LogResponseWidgetState createState() => _LogResponseWidgetState();
@@ -24,7 +24,7 @@ class _LogResponseWidgetState extends State<LogResponseWidget>
       children: <Widget>[
         Row(
           children: <Widget>[
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Text(isShowAll ? 'shrink all' : 'expand all'),
             Switch(
               value: isShowAll,
@@ -51,7 +51,7 @@ class _LogResponseWidgetState extends State<LogResponseWidget>
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Text(
+                const Text(
                   'Tip: long press a key to copy the value to the clipboard',
                   style: TextStyle(
                     fontSize: 10,
@@ -77,7 +77,7 @@ class _LogResponseWidgetState extends State<LogResponseWidget>
           onPressed: () {
             copyClipboard(context, toJson(json));
           },
-          child: Text('copy json'),
+          child: const Text('copy json'),
         ),
         Text(
           '$key',
